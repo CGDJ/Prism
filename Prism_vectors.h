@@ -38,6 +38,8 @@ SOFTWARE.
 */
 
 #pragma once
+//<iostream> is required
+#include <iostream>
 //uncomment this if you want to use divide by zero safeguard. Be warned this may cause inaccurate calculations if a division by zero occurs.  
 //#define PV_DIVIDE_BY_ZERO_GUARD
 //when debug is defined it allows extra warnings
@@ -92,6 +94,12 @@ struct pV2d {
 	//@return true if the vector is a null vector (0,0) 
 	inline bool isNullVector()const{
 		return (double(this->x + this->y)==0);
+	};
+
+	// easy printing to streams, vector is formatted as [ x, y ]
+	//@param the pV2d vector to print , the stream to write too, can be std::cout or std::filestream for example. 
+	static void print(pV2d& vect, std::ostream& outStream = std::cout) {
+		outStream << "[ " << vect.x << " " << vect.y << " ]";
 	};
 
 	//operator overrides 
@@ -189,11 +197,10 @@ struct pV2d {
 		return *this;
 	};
 
-	//easy printing to console 
+	//Stream output 
 	friend std::ostream& operator<<(std::ostream& os, const pV2d& o)
 	{
-		os << " [" << o.x << " , " << o.y << "] ";
-		return os;
+		return os << o.x << o.y;
 	}
 };
 struct pV3d {
@@ -223,10 +230,9 @@ struct pV3d {
 		return float((this->x * vect_.x) + (this->y * vect_.y)+ (this->z * vect_.z));
 	};
 
-	//Although only taking a 2d vector this function treats the cross product as though it is 
-	//a 3d vector with each z component = 0. 
-	//@param Another 2d vector you wish to cross with this one.
-	//@return A sudo z component scalar. 
+	//cross product of two pV3d vector 
+	//@param Another 3d vector you wish to cross with this one.
+	//@return result of the cross product as pV3d vector . 
 	inline pV3d crossProduct(const pV3d& vect_)const {
 		return pV3d(
 			((this->y * vect_.z) - (this->z * vect_.y)),
@@ -249,6 +255,14 @@ struct pV3d {
 		float mag = this->magnitude();
 		return pV3d(this->x / mag, this->y / mag, this->z / mag);
 	};
+
+
+	// easy printing to streams, vector is formatted as [ x, y ,z ]
+	//@param the pV3d vector to print , the stream to write too, can be std::cout or std::filestream for example. 
+	static void print(pV3d& vect ,std::ostream& outStream = std::cout){
+		outStream << "[ " << vect.x << " " << vect.y << " " << vect.z << " ]";
+	};
+
 
 	//operator overrides ///////////////////////////////////////////////////////
 
@@ -364,11 +378,10 @@ struct pV3d {
 		return *this;
 	};
 
-	//easy printing to console 
+	//Stream output
 	friend std::ostream& operator<<(std::ostream& os, const pV3d& o)
 	{
-		os << " [" << o.x << " , " << o.y << " , " << o.z << "] ";
-		return os;
+		return os << o.x << o.y << o.z;
 	}
 
 	//operator overrides ///////////////////////////////////////////////////////

@@ -1,20 +1,14 @@
 # Prism Vectors
 
-Prism Vectors is a bare bones, header only set of vector structs, designed to allow simple manipulation of 2d and 3d vectors. 
+Prism Vectors is a bare bones, header only set of vector structs, designed to allow simple manipulation of 2d and 3d vectors, with an additional templated version for vectors of any size and numerical type. 
 
 ## Core features
 
 - All common operators supported  
   
-      `+ - * =  ++ -- /`
+      `+ - * =  ++ -- / <<`
 
-- Stream output for easy logging 
-  
-  - `pV3D myVector(10,5,6);`
-  
-  - `std::cout <<  myVector; `
-  
-  - console output: [ 10 , 5 , 6 ] 
+- Easy raw and formatted printing to streams 
 
 -  Functions for commonly used Vector math.
   
