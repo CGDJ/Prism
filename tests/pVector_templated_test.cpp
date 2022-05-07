@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "pch.h" // pch.h should #include "gtest/gtest.h" 
 #include "Prism_vector_templated.h"
 
 TEST(pVector_Templated_tests, InitTestDefault) {
@@ -116,14 +116,14 @@ TEST(pVector_Templated_tests, magnitude) {
 
 	pVector<float, 3> a(3);
 	
-	EXPECT_FLOAT_EQ(a.magnitude(), 5.196152422706631);
+	EXPECT_FLOAT_EQ(a.magnitude(), 5.196152422706631f);
 	
 
 }
 TEST(pVector_Templated_tests, normalize) {
 
 	pVector<float, 3> a(10);
-	pVector<float, 3>b(0.57735026);
+	pVector<float, 3>b(0.57735026f);
 	EXPECT_FLOAT_EQ(a.normalize().data[0], b.data[0]);
 	a.data[0] = 1;
 	a.data[1] = 0;
@@ -131,3 +131,24 @@ TEST(pVector_Templated_tests, normalize) {
 	EXPECT_FLOAT_EQ(a.normalize().data[0], 1);
 
 }
+TEST(pVector_Templated_tests, OperatorDivisionFloat) {
+
+	pVector<float, 3> a(4);
+	a = a / 2;
+	EXPECT_FLOAT_EQ(a.data[0], 2);
+	EXPECT_FLOAT_EQ(a.data[1], 2);
+	EXPECT_FLOAT_EQ(a.data[2], 2);
+	
+}
+TEST(pVector_Templated_tests, OperatorDivisionVector) {
+
+	pVector<float, 3> a(4);
+	pVector<float, 3> b(2);
+	a = a / b;
+	EXPECT_FLOAT_EQ(a.data[0], 2);
+	EXPECT_FLOAT_EQ(a.data[1], 2);
+	EXPECT_FLOAT_EQ(a.data[2], 2);
+
+}
+
+

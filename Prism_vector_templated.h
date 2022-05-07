@@ -27,7 +27,7 @@ SOFTWARE.
 
 #pragma once
 //<iostream> is required
-//#include <iostream>
+#include <iostream>
 //uncomment this if you want to use divide by zero safeguard. Be warned this may cause inaccurate calculations if a division by zero occurs.  
 //#define PV_DIVIDE_BY_ZERO_GUARD
 //when debug is defined it allows extra warnings
@@ -39,7 +39,10 @@ SOFTWARE.
 template<typename T = float, int COUNT = 3>
 struct pVector {
 public:
+	//@param array that stores the vector 
 	T data[COUNT]{};
+
+
 	pVector() {};
 
 	pVector(T Initial_value) {
@@ -135,6 +138,37 @@ public:
 		}
 		return out;
 	};
+
+#ifdef  PV_DIVIDE_BY_ZERO_GUARD
+	//slower than normal but contains safeguard check to prevent division by 0 if a component is == to zero the division will be this->axis /1. 
+	pVector < T, COUNT> operator/ (const pVector < T, COUNT> other_)const {
+#ifdef DEBUG
+#ifndef PV_SILENT
+		try {
+			for (int i=0; i < COUNT; i++) {
+				if (other_.data[i] == 0) {
+					throw "error";
+					break;
+				}
+			}
+		}
+		catch (...) { std::cerr << " WARNING: division by zero occurred but will be augmented. \n"; }
+#endif //PV_SILENT
+#endif // DEBUG
+		pVector < T, COUNT> out;
+		for (int i=0; i < COUNT; i++) {
+			out.data[i] = T(this->data[i] / (other_.data[i] + (other_.data[i] == 0)));
+		}
+		return out;
+		};
+#else 
+	// division by zero can occur 
+	pVector < T, COUNT> operator/ (const pVector < T, COUNT> other_)const {
+		pVector < T, COUNT> out;
+		for (int i =0; i < COUNT; i++) { out.data[i] = T(this->data[i] / other_.data[i]); }
+		return out;
+		};
+#endif //  PV_DIVIDE_BY_ZERO_GUARD
 
 	//easy printing to console 
 	friend std::ostream& operator<<(std::ostream& os, const pVector<T, COUNT>& o)
