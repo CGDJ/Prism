@@ -52,6 +52,15 @@ struct pV2d {
 	//@param vector components  
 	float x = 0, y = 0;
 
+	pV2d() {};
+	pV2d(float x_, float y_ = 0) {
+		this->x = x_;
+		this->y = y_;
+	};
+	pV2d(pV2d& vec_) {
+		this->x = vec_.x;
+		this->y = vec_.y;
+	};
 	// copy the vector to a new destination using memcpy 
 	//@param the pointer to an array with space for 3 floats 
 	void copyTo(float* copyTo_ptr) {
@@ -85,10 +94,12 @@ struct pV2d {
 	//@return a normalized vector, unless vector is a null vector in which case returns (0,0)
 	pV2d normalize() const {
 		if (this->isNullVector()) {
-			return pV2d(0, 0);
+			pV2d out(0, 0);
+			return out;
 		}
 		float mag = this->magnitude();
-		return pV2d(this->x / mag, this->y / mag);
+		pV2d out(this->x / mag, this->y / mag);
+		return out;
 	};
 
 	//@return true if the vector is a null vector (0,0) 
@@ -196,7 +207,16 @@ struct pV2d {
 		this->y -= 1;
 		return *this;
 	};
-
+	pV2d& operator-- (int) {
+		this->x -= 1;
+		this->y -= 1;
+		return *this;
+	};
+	pV2d& operator++ (int) {
+		this->x += 1;
+		this->y += 1;
+		return *this;
+	};
 	//Stream output 
 	friend std::ostream& operator<<(std::ostream& os, const pV2d& o)
 	{
@@ -207,6 +227,22 @@ struct pV3d {
 	//@param vector component  
 	float x = 0, y = 0, z = 0;
 
+	pV3d() {};
+	pV3d(float x_, float y_ = 0 ,float z_ = 0) {
+		this->x = x_;
+		this->y = y_;
+		this->z = z_;
+	};
+	pV3d(pV3d& vec_) {
+		this->x = vec_.x;
+		this->y = vec_.y;
+		this->z = vec_.z;
+	};
+	pV3d(pV2d& vec_, float z_ =0) {
+		this->x = vec_.x;
+		this->y = vec_.y;
+		this->z = z_;
+	};
 	// copy the vector to a new destination using memcpy 
 	//@param the pointer to an array with space for 3 floats 
 	void copyTo(float* copyTo_ptr) {
@@ -234,11 +270,12 @@ struct pV3d {
 	//@param Another 3d vector you wish to cross with this one.
 	//@return result of the cross product as pV3d vector . 
 	inline pV3d crossProduct(const pV3d& vect_)const {
-		return pV3d(
+		pV3d out(
 			((this->y * vect_.z) - (this->z * vect_.y)),
 			((this->z * vect_.x) - (this->x * vect_.z)),
 			((this->x * vect_.y) - (this->y * vect_.x))
 					);
+		return out;
 	};
 
 	//@return true if the vector is a null vector (0,0,0) 
@@ -250,10 +287,12 @@ struct pV3d {
 	//@return a normalized vector , unless original vector was a null vector, then returns (0,0,0)
 	pV3d normalize() const {
 		if (this->isNullVector()) {
-			return pV3d(0, 0, 0);
+			pV3d out(0, 0, 0);
+			return out;
 		}
 		float mag = this->magnitude();
-		return pV3d(this->x / mag, this->y / mag, this->z / mag);
+		pV3d out (this->x / mag, this->y / mag, this->z / mag);
+		return out;
 	};
 
 
@@ -349,7 +388,7 @@ struct pV3d {
 		out.x = float(this->x / other_);
 		out.y = float(this->y / other_);
 		out.z = float(this->z / other_);
-		return *this;
+		return out;
 	};
 	pV3d operator- (const double other_)const {
 		pV3d out;
