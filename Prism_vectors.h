@@ -107,6 +107,11 @@ struct pV2d {
 		return (double(this->x + this->y)==0);
 	};
 
+	void set(float x_, float y_) {
+		this->x = x_;
+		this->y = y_;
+	};
+
 	// easy printing to streams, vector is formatted as [ x, y ]
 	//@param the pV2d vector to print , the stream to write too, can be std::cout or std::filestream for example. 
 	static void print(pV2d& vect, std::ostream& outStream = std::cout) {
@@ -114,7 +119,7 @@ struct pV2d {
 	};
 
 	//operator overrides 
-	pV2d& operator = (pV2d other_) {
+	pV2d& operator = (const pV2d other_) {
 		this->x = other_.x;
 		this->y = other_.y;
 		return *this;
@@ -251,7 +256,7 @@ struct pV3d {
 
 	//@return the magnitude of the vector 
 	inline float magnitude()const {
-		return float(sqrt(pow(this->x, 2) + pow(this->y, 2)) + pow(this->z, 2));
+		return float(sqrt(pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2)));
 	};
 	//find the distance from this vector to another 
 	//@param vector you wish to find the distance to
@@ -295,6 +300,15 @@ struct pV3d {
 		return out;
 	};
 
+	void set(float x_, float y_) {
+		this->x = x_;
+		this->y = y_;
+	};
+	void set(float x_, float y_, float z_) {
+		this->x = x_;
+		this->y = y_;
+		this->z = z_;
+	};
 
 	// easy printing to streams, vector is formatted as [ x, y ,z ]
 	//@param the pV3d vector to print , the stream to write too, can be std::cout or std::filestream for example. 
@@ -411,6 +425,18 @@ struct pV3d {
 		return *this;
 	};
 	pV3d& operator-- () {
+		this->x -= 1;
+		this->y -= 1;
+		this->z -= 1;
+		return *this;
+	};
+	pV3d& operator++ (int) {
+		this->x += 1;
+		this->y += 1;
+		this->z += 1;
+		return *this;
+	};
+	pV3d& operator-- (int) {
 		this->x -= 1;
 		this->y -= 1;
 		this->z -= 1;
